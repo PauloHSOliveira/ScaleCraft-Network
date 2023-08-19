@@ -1,0 +1,9 @@
+# Rust-specific ignore
+/target/
+
+# macOS
+.DS_Store
+
+# IDE-specific ignore
+.idea/
+.vscode/
