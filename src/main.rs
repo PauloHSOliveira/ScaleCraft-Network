@@ -142,7 +142,7 @@ impl Blockchain {
 }
 
 fn main() {
-    let difficulty = 4;
+    let difficulty = 5;
     let mut blockchain = Blockchain::new(difficulty);
 
     blockchain.add_transaction(Transaction {
