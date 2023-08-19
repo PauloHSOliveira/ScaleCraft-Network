@@ -3,13 +3,15 @@ use sha2::{Sha256, Digest};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 #[derive(Debug, Clone)]
+struct WalletAddress(String);
+#[derive(Debug, Clone)]
 struct Transaction {
-    sender: String,
-    receiver: String,
+    sender: WalletAddress,
+    receiver: WalletAddress,
     amount: f64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct Block {
     index: u32,
     timestamp: u64,
@@ -21,8 +23,8 @@ struct Block {
 
 impl Hash for Transaction {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        self.sender.hash(state);
-        self.receiver.hash(state);
+        self.sender.0.hash(state);
+        self.receiver.0.hash(state);
         self.amount.to_bits().hash(state);
     }
 }
@@ -87,10 +89,12 @@ impl Blockchain {
         self.pending_transactions.push(transaction);
     }
 
-    fn mine_pending_transactions(&mut self, miner_address: &str) {
+    fn mine_pending_transactions(&mut self, miner_address: WalletAddress) {
+         let system_address = WalletAddress(String::from("System"));
+
         let reward_transaction = Transaction {
-            sender: String::from("system"),
-            receiver: String::from(miner_address),
+            sender: system_address,
+            receiver: miner_address,
             amount: self.mining_reward,
         };
         self.pending_transactions.push(reward_transaction);
@@ -123,14 +127,15 @@ impl Blockchain {
     }
 
     fn is_chain_valid(&self) -> bool {
-        let mut prev_hash = String::from("genesis_block_hash");
+        let mut prev_hash = String::from("genesis_block_hash"); // Change this to match the hash of the actual genesis block
 
         for block in &self.blocks {
             if block.previous_hash != prev_hash {
                 return false;
             }
 
-            if block.hash != block.calculate_hash() {
+            let calculated_hash = block.calculate_hash();
+            if block.hash != calculated_hash {
                 return false;
             }
 
@@ -145,21 +150,19 @@ fn main() {
     let difficulty = 5;
     let mut blockchain = Blockchain::new(difficulty);
 
-    blockchain.add_transaction(Transaction {
-        sender: String::from("Alice"),
-        receiver: String::from("Bob"),
+    let alice_address = WalletAddress(String::from("Alice"));
+
+    let bob_address = WalletAddress(String::from("Bob"));
+
+    let transaction = Transaction {
+        sender: alice_address.clone(),
+        receiver: bob_address.clone(),
         amount: 18.0,
-    });
+    };
 
-    blockchain.mine_pending_transactions("miner_address");
+    blockchain.add_transaction(transaction);
 
-    blockchain.add_transaction(Transaction {
-        sender: String::from("Bob"),
-        receiver: String::from("Charlie"),
-        amount: 10.0,
-    });
-
-    blockchain.mine_pending_transactions("miner_address");
+    blockchain.mine_pending_transactions(alice_address.clone());
 
     println!("Blockchain: {:?}", blockchain);
     println!("Is Blockchain Valid? {}", blockchain.is_chain_valid());
