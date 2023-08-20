@@ -4,7 +4,7 @@
 Welcome to the ScaleCraft Network Blockchain Portfolio. This project aims to create a blockchain network that represents Brazil, providing a secure and accessible financial system that is resistant to government interference and corruption. The goal is to develop a blockchain technology that becomes as globally recognized and influential as Ethereum.
 
 ## Project Overview
-As a part of my journey to learn and develop blockchain technology, I am actively working on the ScaleCraft Network blockchain. While I'm in the process of studying Rust, I am simultaneously implementing different aspects of the blockchain. This project aims to bring together scalability, security, and innovative solutions to the blockchain ecosystem.
+As part of my journey to learn and develop blockchain technology, I am actively working on the ScaleCraft Network blockchain. While studying Rust, I am simultaneously implementing different aspects of the blockchain. This project aims to bring together scalability, security, and innovative solutions to the blockchain ecosystem.
 
 ## Implemented Features
 1. **Proof of Work Algorithm**: Implemented a Proof of Work consensus algorithm for block validation.
@@ -15,6 +15,10 @@ As a part of my journey to learn and develop blockchain technology, I am activel
 6. **Dynamic Difficulty**: Set up dynamic difficulty adjustment to control the mining process.
 7. **Blockchain Print Info**: Added functionality to print block information.
 8. **Blockchain Validation**: Implemented blockchain validation to ensure the integrity of the entire chain.
+9. **Wallet Implementation**: Introduced wallet functionality for managing accounts and balances.
+10. **Token Minting**: Added the ability to mint new tokens and manage token balances.
+11. **Advanced Transactions**: Implemented advanced transactions, including transferring tokens between accounts.
+12. **Token Balance Checks**: Introduced balance checks and authentication for secure transactions.
 
 ## Current Focus
 My current focus is on refining the blockchain's architecture, optimizing performance, and adding more features that align with the goals of the ScaleCraft Network project. I am continuously studying Rust to improve my programming skills and enhance the blockchain's capabilities.
