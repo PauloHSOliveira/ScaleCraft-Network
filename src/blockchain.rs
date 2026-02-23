@@ -38,12 +38,6 @@ impl Block {
 
 #[derive(Debug)]
 pub struct Blockchain {
-    // TODO(roadmap-phase-1): Replace local-only chain flow with libp2p-based P2P networking and gossip sync.
-    // TODO(roadmap-phase-1): Migrate consensus from PoW-only to PoS/BFT with validator incentives/slashing.
-    // TODO(roadmap-phase-2): Add WASM/EVM execution layer for smart contracts and deterministic state transitions.
-    // TODO(roadmap-phase-3): Introduce scalability mechanisms (sharding/L2/parallel transaction execution).
-    // TODO(roadmap-phase-4): Expose node APIs/SDK support and implement on-chain governance + treasury controls.
-    // TODO(roadmap-phase-5): Add multi-sig/security hardening and interoperability (IBC/bridges).
     pub blocks: Vec<Block>,
     pub difficulty: usize,
     pub pending_transactions: Vec<Transaction>,
@@ -114,11 +108,14 @@ impl Blockchain {
     }
 
     // Add a new transaction to the list of pending transactions
+    // TODO(roadmap-phase-1): Replace this local queue with a validated mempool (signature/nonce/fee checks).
     pub fn add_transaction(&mut self, transaction: Transaction) {
         self.pending_transactions.push(transaction);
     }
 
     // Mine pending transactions and add a new block to the blockchain
+    // TODO(roadmap-phase-1): Replace PoW mining flow with validator-based PoS/BFT finality.
+    // TODO(roadmap-phase-1): Broadcast/receive blocks and transactions through libp2p gossip.
     pub fn mine_pending_transactions(&mut self, miner_address: WalletAddress) {
         let system_address = wallet::WalletAddress::new(String::from("System"));
 
@@ -157,6 +154,8 @@ impl Blockchain {
     }
 
     // Validate the entire blockchain
+    // TODO(roadmap-phase-2): Extend validation for VM-based smart contract state transitions.
+    // TODO(roadmap-phase-3): Add fork-choice and parallel execution safety checks.
     pub fn is_chain_valid(&self) -> bool {
         if self.blocks.is_empty() {
             return false;

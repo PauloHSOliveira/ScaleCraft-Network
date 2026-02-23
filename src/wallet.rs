@@ -2,7 +2,7 @@ use std::hash::{Hash, Hasher};
 
 #[derive(Debug, Clone)]
 pub struct WalletAddress(String);
-// TODO(roadmap-phase-5): Replace raw string identity with cryptographic keypairs and address derivation.
+// TODO(roadmap-phase-1): Replace raw string identity with cryptographic keypairs and address derivation.
 
 #[derive(Debug, Clone)]
 pub struct Transaction {
