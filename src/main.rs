@@ -12,7 +12,7 @@ fn main() {
 
     let alice_address = wallet::WalletAddress::new(String::from("Alice"));
 
-    let bob_address = wallet::WalletAddress::new(String::from("Alice"));
+    let bob_address = wallet::WalletAddress::new(String::from("Bob"));
 
     let transaction = Transaction {
         sender: alice_address.clone(),
@@ -42,4 +42,3 @@ fn main() {
     println!("Blockchain: {:?}", blockchain);
     println!("Is Blockchain Valid? {}", blockchain.is_chain_valid());
 }
-

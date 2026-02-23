@@ -19,7 +19,11 @@ pub struct Block {
 impl Block {
     fn calculate_hash(&self) -> String {
         let mut hasher = Sha256::new();
-        hasher.update(format!("{:?}", self));
+        hasher.update(self.index.to_string());
+        hasher.update(self.timestamp.to_string());
+        hasher.update(format!("{:?}", self.transactions));
+        hasher.update(&self.previous_hash);
+        hasher.update(self.nonce.to_string());
         format!("{:x}", hasher.finalize())
     }
 
@@ -76,17 +80,18 @@ impl Token {
 impl Blockchain {
     // Create a new blockchain with a genesis block
     pub fn new(difficulty: usize) -> Self {
-        let genesis_block = Block {
+        let mut genesis_block = Block {
             index: 0,
             timestamp: SystemTime::now()
                 .duration_since(UNIX_EPOCH)
                 .expect("Time went backwards")
                 .as_secs(),
             transactions: Vec::new(),
-            previous_hash: String::from("genesis_block_hash"),
-            hash: String::from("genesis_block_hash"),
+            previous_hash: String::from("0"),
+            hash: String::new(),
             nonce: 0,
         };
+        genesis_block.hash = genesis_block.calculate_hash();
 
         Blockchain {
             blocks: vec![genesis_block],
@@ -147,19 +152,33 @@ impl Blockchain {
 
     // Validate the entire blockchain
     pub fn is_chain_valid(&self) -> bool {
-        let mut prev_hash = String::from("genesis_block_hash"); // Change this to match the hash of the actual genesis block
+        if self.blocks.is_empty() {
+            return false;
+        }
 
-        for block in &self.blocks {
-            if block.previous_hash != prev_hash {
+        let genesis_block = &self.blocks[0];
+        if genesis_block.previous_hash != "0" {
+            return false;
+        }
+        if genesis_block.hash != genesis_block.calculate_hash() {
+            return false;
+        }
+
+        let target_prefix = "0".repeat(self.difficulty);
+
+        for i in 1..self.blocks.len() {
+            let current_block = &self.blocks[i];
+            let previous_block = &self.blocks[i - 1];
+
+            if current_block.previous_hash != previous_block.hash {
                 return false;
             }
-
-            let calculated_hash = block.calculate_hash();
-            if block.hash != calculated_hash {
+            if current_block.hash != current_block.calculate_hash() {
                 return false;
             }
-
-            prev_hash = block.hash.clone();
+            if !current_block.hash.starts_with(&target_prefix) {
+                return false;
+            }
         }
 
         true
@@ -251,6 +270,26 @@ impl Blockchain {
         *receiver_token_balance_entry += amount;
 
         Ok(())
-    } 
-    
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn mined_chain_is_valid() {
+        let mut blockchain = Blockchain::new(1);
+        let alice = WalletAddress::new("Alice".to_string());
+        let bob = WalletAddress::new("Bob".to_string());
+
+        blockchain.add_transaction(Transaction {
+            sender: alice.clone(),
+            receiver: bob,
+            amount: 10.0,
+        });
+        blockchain.mine_pending_transactions(alice);
+
+        assert!(blockchain.is_chain_valid());
+    }
 }

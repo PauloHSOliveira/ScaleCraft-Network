@@ -26,6 +26,16 @@ My current focus is on refining the blockchain's architecture, optimizing perfor
 ## Future Steps
 In the upcoming phases, I plan to introduce more advanced features such as smart contracts, tokenization, and integration with real-world use cases.
 
+## How to Transform This Into a Real/Functional Blockchain
+To evolve this project from a learning prototype into a production-ready blockchain, the next priorities are:
+1. **Cryptographic Wallets and Signatures**: Replace string-based identities with public/private key pairs and signed transactions.
+2. **Strict Transaction Validation**: Add nonce/sequence checks, signature verification, fee rules, and replay protection.
+3. **State and Chain Persistence**: Persist blocks, transactions, and account/token state in durable storage.
+4. **Networking Between Nodes**: Implement peer discovery, block/transaction gossip, and chain synchronization.
+5. **Consensus Hardening**: Enforce full PoW validation, difficulty retargeting rules, and fork-choice logic.
+6. **Node APIs and Tooling**: Expose RPC/REST interfaces, CLI utilities, and observability (logs/metrics).
+7. **Security and Testing**: Add integration tests, adversarial tests, and continuous security auditing.
+
 ## Contributions
 I welcome collaboration and contributions from fellow blockchain enthusiasts, Rust developers, and anyone interested in innovative blockchain solutions. Feel free to reach out if you're interested in getting involved!
 
