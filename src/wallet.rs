@@ -2,12 +2,14 @@ use std::hash::{Hash, Hasher};
 
 #[derive(Debug, Clone)]
 pub struct WalletAddress(String);
+// TODO(roadmap-phase-1): Replace raw string identity with cryptographic keypairs and address derivation.
 
 #[derive(Debug, Clone)]
 pub struct Transaction {
     pub sender: WalletAddress,
     pub receiver: WalletAddress,
     pub amount: f64,
+    // TODO(roadmap-phase-1): Add nonce + fee fields and signature payload for replay protection and validation.
 }
 
 impl Hash for Transaction {
