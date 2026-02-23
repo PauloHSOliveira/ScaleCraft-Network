@@ -38,6 +38,12 @@ impl Block {
 
 #[derive(Debug)]
 pub struct Blockchain {
+    // TODO(roadmap-phase-1): Replace local-only chain flow with libp2p-based P2P networking and gossip sync.
+    // TODO(roadmap-phase-1): Migrate consensus from PoW-only to PoS/BFT with validator incentives/slashing.
+    // TODO(roadmap-phase-2): Add WASM/EVM execution layer for smart contracts and deterministic state transitions.
+    // TODO(roadmap-phase-3): Introduce scalability mechanisms (sharding/L2/parallel transaction execution).
+    // TODO(roadmap-phase-4): Expose node APIs/SDK support and implement on-chain governance + treasury controls.
+    // TODO(roadmap-phase-5): Add multi-sig/security hardening and interoperability (IBC/bridges).
     pub blocks: Vec<Block>,
     pub difficulty: usize,
     pub pending_transactions: Vec<Transaction>,
